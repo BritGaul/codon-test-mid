@@ -2,6 +2,7 @@ using System.IO;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace InterviewQuestions
 {
@@ -62,7 +63,14 @@ namespace InterviewQuestions
                 foreach(string s in lines)
                 {
                     String[] translation = s.Split(',');
-                    translationMap.Add(translation[0], translation[1]);
+                    if (translation[0].Equals("ATG"))
+                    {
+                        translationMap.Add(translation[0], "M");
+                    }
+                    else
+                    {
+                        translationMap.Add(translation[0], translation[1]);
+                    }
                 }
             }
         }
@@ -76,20 +84,20 @@ namespace InterviewQuestions
         /// <returns>Amino acid sequence</returns>
         public string Translate(string dna)
         {
-            string final = "";
+            StringBuilder final = new StringBuilder("");
             int index = dna.IndexOf("ATG");
             string start_dna = dna.Substring(index, dna.Length);
             List<string> dna_chunks = Split(start_dna, 3).ToList();
-            foreach(string str in dna_chunks)
+            foreach (string str in dna_chunks)
             {
-                if(str.Equals("TAG") || str.Equals("TGA") || str.Equals("TAA")) break;
+                if (str.Equals("TAG") || str.Equals("TGA") || str.Equals("TAA")) break;
                 if (translationMap.ContainsKey(str))
                 {
-                    final = final + translationMap[str];
+                    final.Append(translationMap[str]);
                 }
             }
-            Console.WriteLine(final);
-            return final;
+            string final_translation = final.ToString();
+            return final_translation;
         }
 
         static IEnumerable<string> Split(string str, int chunkSize)
