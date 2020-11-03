@@ -77,9 +77,10 @@ namespace InterviewQuestions
         public string Translate(string dna)
         {
             string final = "";
-            //int index = dna.IndexOf("ATG");
-            //Console.WriteLine(index);
-            List<string> dna_chunks = Split(dna, 3).ToList();
+            int index = dna.IndexOf("ATG");
+            string start_dna = dna.Substring(2, dna.Length-1);
+            Console.WriteLine(start_dna);
+            List<string> dna_chunks = Split(start_dna, 3).ToList();
             foreach(string str in dna_chunks)
             {
                 if(str.Equals("TAG") || str.Equals("TGA") || str.Equals("TAA")) break;
