@@ -1,4 +1,7 @@
 using System.IO;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace InterviewQuestions
 {
@@ -38,6 +41,8 @@ namespace InterviewQuestions
     public class CodonTranslator
     {
 
+        private Dictionary<string, string> translationMap = new Dictionary<string, string>();
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -51,17 +56,46 @@ namespace InterviewQuestions
 
         private void BuildTranslationMapFromFileContent(string fileContent, string fileType)
         {
-            throw new System.NotImplementedException(string.Format("The contents of the file with type \"{0}\" have been loaded, please make use of it.\n{1}",fileType,fileContent));
+            if(fileType == ".csv")
+            {
+                string[] lines = fileContent.Split(new[] { Environment.NewLine },StringSplitOptions.None);
+                foreach(string s in lines)
+                {
+                    String[] translation = s.Split(',');
+                    translationMap.Add(translation[0], translation[1]);
+                }
+            }
         }
 
         /// <summary>
         /// Translates a sequence of DNA into a sequence of amino acids.
         /// </summary>
+        /// Start Codon: ATG -> M
+        /// Stop Codons: TAG, TGA, TAA
         /// <param name="dna">DNA sequence to be translated.</param>
         /// <returns>Amino acid sequence</returns>
         public string Translate(string dna)
         {
-            return "";
+            string final = "";
+            //int index = dna.IndexOf("ATG");
+            //Console.WriteLine(index);
+            List<string> dna_chunks = Split(dna, 3).ToList();
+            foreach(string str in dna_chunks)
+            {
+                if(str.Equals("TAG") || str.Equals("TGA") || str.Equals("TAA")) break;
+                if (translationMap.ContainsKey(str))
+                {
+                    final = final + translationMap[str];
+                }
+            }
+            Console.WriteLine(final);
+            return final;
+        }
+
+        static IEnumerable<string> Split(string str, int chunkSize)
+        {
+            return Enumerable.Range(0, str.Length / chunkSize)
+                .Select(i => str.Substring(i * chunkSize, chunkSize));
         }
     }
 }

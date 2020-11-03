@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -98,7 +100,6 @@ namespace InterviewQuestions
             const string expected = "M";
 
             var actual = codonTranslator.Translate(inputDna);
-
             Assert.That(actual, Is.EqualTo(expected));
         }
 
