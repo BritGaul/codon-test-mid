@@ -78,8 +78,7 @@ namespace InterviewQuestions
         {
             string final = "";
             int index = dna.IndexOf("ATG");
-            string start_dna = dna.Substring(2, dna.Length-1);
-            Console.WriteLine(start_dna);
+            string start_dna = dna.Substring(index, dna.Length);
             List<string> dna_chunks = Split(start_dna, 3).ToList();
             foreach(string str in dna_chunks)
             {
